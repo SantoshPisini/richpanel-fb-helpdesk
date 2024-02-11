@@ -39,7 +39,7 @@ export default function AgentConversations() {
       </div>
       <div className="divide-y divide-slate-200 border-y border-slate-200">
         {conversations.length == 0 && "Loading..."}
-        {conversations.map((conversation, index) => {
+        {conversations.map((conversation: any, index) => {
           return (
             <div
               className="flex flex-col gap-4 p-4 cursor-pointer"
