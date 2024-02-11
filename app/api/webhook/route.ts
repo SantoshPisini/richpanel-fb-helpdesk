@@ -11,11 +11,11 @@ export async function GET(req: NextRequest) {
   }
   await connectDB();
   // Duplicate check
-  const body = await req.json();
+  const body = req.body;
   if (!body) {
     return NextResponse.json({ message: "No Content!" }, { status: 200 });
   }
-  console.log(JSON.stringify(body));
+  console.log(body)
   try {
     const data = new FbWebhook({ temp: JSON.stringify(body) });
     await data.save();
