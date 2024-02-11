@@ -1,5 +1,4 @@
 import connectDB from "@/lib/mongodb";
-import Integration from "@/models/FbModel";
 import FbWebhook from "@/models/FbWebhook";
 import { NextRequest, NextResponse } from "next/server";
 

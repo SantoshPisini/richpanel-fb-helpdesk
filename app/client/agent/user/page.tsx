@@ -1,3 +1,5 @@
+"use client";
+
 import AgentChat from "@/components/site/AgentChat";
 import AgentConversations from "@/components/site/AgentConversations";
 import UserProfile from "@/components/site/UserProfile";
