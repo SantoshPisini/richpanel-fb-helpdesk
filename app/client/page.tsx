@@ -57,7 +57,7 @@ export default function ClientPage() {
   }, []);
 
   function connectWithFB() {
-    window.location.href = process.env.FACEBOOK_AUTH_URL!;
+    window.location.href = process.env.NEXT_PUBLIC_FACEBOOK_AUTH_URL!;
   }
 
   async function deleteIntegration() {
