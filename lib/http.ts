@@ -7,14 +7,8 @@ const callAPI = async (
   body: any = {}
 ) => {
   try {
-    const headers = new Headers();
-    headers.append(
-      "Authorization",
-      `Bearer ${sessionStorage.getItem("access_token")}`
-    );
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${url}`, {
       method: method,
-      // headers: headers,
       body: method != "GET" ? JSON.stringify(body) : null,
     });
     if (response.status == 200) {
@@ -25,7 +19,7 @@ const callAPI = async (
       error = "Session time out!";
       setTimeout(() => {
         sessionStorage.clear();
-        redirect("/login");
+        window.location.href = "/login";
       }, 2000);
     } else if (response.status == 400) {
       const json = await response.json();

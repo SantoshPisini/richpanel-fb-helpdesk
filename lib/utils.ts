@@ -13,7 +13,8 @@ export const getDataFromToken = (request: NextRequest) => {
     const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET!);
     return decodedToken;
   } catch (error: any) {
-    throw new Error(error.message);
+    console.error(error);
+    return null;
   }
 };
 

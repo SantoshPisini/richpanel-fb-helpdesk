@@ -69,6 +69,50 @@ export default function ClientPage() {
     setIsLoading(false);
   }
 
+  async function getPages(tokenInfo: any) {
+    // Me
+    const me = await fetch(
+      `https://graph.facebook.com/v19.0/me?access_token=${tokenInfo.access_token}`,
+      {
+        method: "GET",
+      }
+    );
+    if (me.ok) {
+      const _me = await me.json();
+      // Accounts
+      const accounts = await fetch(
+        `https://graph.facebook.com/v19.0/${_me.id}/accounts?access_token=${tokenInfo.access_token}`,
+        {
+          method: "GET",
+        }
+      );
+      if (accounts.ok) {
+        const _accounts = await accounts.json();
+        if (_accounts.data.length != 1) {
+          toast({
+            title: "Uh oh!",
+            variant: "destructive",
+            description: "Please select a single Facebook page!",
+          });
+          return;
+        } else {
+          // TODO: Check MESSAGING or MODERATE task.
+          const response = await callAPI("api/integration", "POST", {
+            user_id: _me.id,
+            page_id: _accounts.data[0].id,
+            page_name: _accounts.data[0].name,
+            page_access_token: _accounts.data[0].access_token,
+            refresh_token: tokenInfo.long_lived_token,
+            data_access_expiration_time: tokenInfo.data_access_expiration_time,
+          });
+          console.log(response);
+          router.refresh();
+        }
+      }
+    }
+    
+  }
+
   return (
     <main className="bg-primary w-screen h-screen">
       <div className="w-full flex items-center justify-center h-full p-8">
@@ -109,46 +153,4 @@ export default function ClientPage() {
       </div>
     </main>
   );
-}
-
-async function getPages(tokenInfo: any) {
-  // Me
-  const me = await fetch(
-    `https://graph.facebook.com/v19.0/me?access_token=${tokenInfo.access_token}`,
-    {
-      method: "GET",
-    }
-  );
-  if (me.ok) {
-    const _me = await me.json();
-    // Accounts
-    const accounts = await fetch(
-      `https://graph.facebook.com/v19.0/${_me.id}/accounts?access_token=${tokenInfo.access_token}`,
-      {
-        method: "GET",
-      }
-    );
-    if (accounts.ok) {
-      const _accounts = await accounts.json();
-      if (_accounts.data.length != 1) {
-        toast({
-          title: "Uh oh!",
-          variant: "destructive",
-          description: "Please select a single Facebook page!",
-        });
-        return;
-      } else {
-        // TODO: Check MESSAGING or MODERATE task.
-        const response = await callAPI("api/integration", "POST", {
-          user_id: _me.id,
-          page_id: _accounts.data[0].id,
-          page_name: _accounts.data[0].name,
-          page_access_token: _accounts.data[0].access_token,
-          refresh_token: tokenInfo.long_lived_token,
-          data_access_expiration_time: tokenInfo.data_access_expiration_time,
-        });
-        console.log(response);
-      }
-    }
-  }
 }

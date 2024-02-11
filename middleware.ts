@@ -6,7 +6,6 @@ export function middleware(request: NextRequest) {
   const isPublicPath =
     path === "/login" || path === "/register" || path === "/";
   const token = request.cookies.get("token")?.value || "";
-  // TODO: Time check
   if (isPublicPath && token) {
     return NextResponse.redirect(new URL("/client", request.nextUrl));
   }

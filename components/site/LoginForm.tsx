@@ -64,6 +64,9 @@ export function LoginForm() {
     });
     if (response) {
       console.log(response);
+      sessionStorage.setItem("name", response.data?.name);
+      sessionStorage.setItem("id", response.data?.id);
+      sessionStorage.setItem("email", response.data?.email);
       router.replace("/client");
     }
     setIsLoading(false);
