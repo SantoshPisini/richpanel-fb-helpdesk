@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
   let challenge = req.nextUrl.searchParams.get("hub.challenge");
   if (mode && token) {
     if (mode === "subscribe" && token === "fB-t0keN") {
-      return NextResponse.json(challenge, { status: 200 });
+      return NextResponse.json(Number(challenge), { status: 200 });
     } else {
       return NextResponse.json({ message: "!" }, { status: 403 });
     }
