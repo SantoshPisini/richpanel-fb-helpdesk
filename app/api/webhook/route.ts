@@ -6,8 +6,14 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   // AUTH
   let token = req.nextUrl.searchParams.get("hub.verify_token");
-  if (!token || token != "fB-t0keN") {
-    return NextResponse.json({ message: "!" }, { status: 403 });
+  let mode = req.nextUrl.searchParams.get("hub.mode");
+  let challenge = req.nextUrl.searchParams.get("hub.challenge");
+  if (mode && token) {
+    if (mode === "subscribe" && token === "fB-t0keN") {
+      return NextResponse.json(challenge, { status: 200 });
+    } else {
+      return NextResponse.json({ message: "!" }, { status: 403 });
+    }
   }
   await connectDB();
   // Duplicate check
@@ -15,7 +21,7 @@ export async function GET(req: NextRequest) {
   if (!body) {
     return NextResponse.json({ message: "No Content!" }, { status: 200 });
   }
-  console.log(body)
+  console.log(body);
   try {
     const data = new FbWebhook({ temp: JSON.stringify(body) });
     await data.save();
