@@ -3,8 +3,12 @@ import Integration from "@/models/FbModel";
 import FbWebhook from "@/models/FbWebhook";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: NextRequest) {
+export async function GET(req: NextRequest) {
   // AUTH
+  let token = req.nextUrl.searchParams.get("hub.verify_token");
+  if (!token || token != "fB-t0keN") {
+    return NextResponse.json({ message: "!" }, { status: 403 });
+  }
   await connectDB();
   // Duplicate check
   const body = await req.json();
