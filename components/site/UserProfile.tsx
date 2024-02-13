@@ -3,8 +3,13 @@ import { Button } from "../ui/button";
 import { CircleUser, Phone } from "lucide-react";
 import { Card, CardContent, CardFooter, CardTitle } from "../ui/card";
 import Link from "next/link";
+import { ConvoResponseModel } from "@/models/Response/ConvoResponseModel";
 
-export default function UserProfile() {
+export default function UserProfile({
+  data,
+}: {
+  data: ConvoResponseModel | null;
+}) {
   return (
     <div className="h-full">
       <div className="h-2/6 flex flex-col gap-1 items-center justify-center">
@@ -15,7 +20,9 @@ export default function UserProfile() {
           className="rounded-full"
           alt="Picture of the author"
         />
-        <span className="font-semibold text-lg">Santosh Pisini</span>
+        <span className="font-semibold text-lg">
+          {data?.messages[0].message_from_name}
+        </span>
         <span className="text-sm text-gray-500">
           <span className="relative inline-flex rounded-full h-2 w-2 mr-1 bg-gray-500"></span>
           Offline
@@ -35,15 +42,21 @@ export default function UserProfile() {
           <CardContent className="text-sm p-0 space-y-2 my-4">
             <div className="flow-root">
               <p className="float-left text-muted-foreground">Email</p>
-              <p className="float-right">santosh@example.com</p>
+              <p className="float-right">
+                {data?.messages[0].message_from_email}
+              </p>
             </div>
             <div className="flow-root">
               <p className="float-left text-muted-foreground">First Name</p>
-              <p className="float-right">Santosh</p>
+              <p className="float-right">
+                {data?.messages[0].message_from_name.split(" ")[0]}
+              </p>
             </div>
             <div className="flow-root">
               <p className="float-left text-muted-foreground">Last Name</p>
-              <p className="float-right">Pisini</p>
+              <p className="float-right">
+                {data?.messages[0].message_from_name.split(" ")[1] ?? ""}
+              </p>
             </div>
           </CardContent>
           <CardFooter className="p-0">

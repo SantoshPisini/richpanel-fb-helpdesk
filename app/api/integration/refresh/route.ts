@@ -5,15 +5,6 @@ import jwt from "jsonwebtoken";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
-  return NextResponse.json(
-    {
-      access_token:
-        "EABjWC8rfljEBO2jqHDIq7KwOWOtc3XwuRv51sybsrethZBjtdKdiZATZBh1hL2Dg0x8J79ix3iVFmT3xJRJZAcW75zZCqeTsthGm80N6fwHWTlUM9y2QfWC9frjzSSwmNXaUeVwmkiZCEZBsH87r7BtmaNqE5W9vioa9TtyCOmN0RT3cN3NsSYEfNUoem6feUUZD",
-      id: "220765204458715",
-      name: "RichPanel",
-    },
-    { status: 200 }
-  );
   // TODO: Auth move to common
   const token = req.cookies.get("token")?.value || "";
   if (!token) {

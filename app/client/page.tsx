@@ -26,6 +26,7 @@ export default function ClientPage() {
       const tokenInfo = parseHash(sessionStorage.getItem("auth-hash") || "{}");
       fetchFBPageData(tokenInfo);
       sessionStorage.removeItem("auth-hash");
+      router.refresh();
     }
     // To process hash
     if (window.location.hash) {
@@ -110,7 +111,6 @@ export default function ClientPage() {
         }
       }
     }
-    
   }
 
   return (

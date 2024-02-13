@@ -69,7 +69,9 @@ export async function GET(req: NextRequest) {
               `https://graph.facebook.com/v19.0/${message.id}?fields=id,created_time,from,to,message&access_token=${existingIntegration?.page_access_token}`
             );
             let message_data = await message_response.json();
-            console.log(JSON.stringify(message_data));
+            // console.log(JSON.stringify(message_data));
+            // console.log("\n\n");
+            // console.log(JSON.stringify(message_data.to.data[0]));
             if (message_response.ok) {
               await Message.findOneAndUpdate(
                 {
@@ -84,7 +86,7 @@ export async function GET(req: NextRequest) {
                   message_from_email: message_data.from.email,
                   message_from_id: message_data.from.id,
                   message_to_id: message_data.to.data[0].id,
-                  message_to_name: message_data.to.data[0].username,
+                  message_to_name: message_data.to.data[0].name,
                   created_time: message_data.created_time,
                 },
                 {
